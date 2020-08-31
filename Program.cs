@@ -11,73 +11,87 @@ namespace deliverable2
 
             int correctCount = 0;
             Random rand = new Random();
-        
             string coin;
-            bool invalidInput = false;
-
+            bool endGame = false;
+           
             Console.WriteLine("WELCOME TO HEADS OR TAILS!\n");
-            Console.WriteLine("Please type 'heads' or 'tails': \n");
-
-            string headsOrTailsGuess = Console.ReadLine();
-
-            //put the users input to lowercase
-
-            if (headsOrTailsGuess.ToLower() != "tails" && headsOrTailsGuess.ToLower() != "heads")
+            
+            while (endGame == false)
             {
-                Console.WriteLine("Not a valid input");
-            }
+                Console.WriteLine("Please type 'heads' or 'tails': \n");
 
-            Console.WriteLine("\nPlease input how many times you'd like to flip the coin: \n");
+                string headsOrTailsGuess = Console.ReadLine();
 
-            string userFlips = Console.ReadLine();
-
-            int numberOfFlips;
-
-            if (!int.TryParse(userFlips, out numberOfFlips))
-            {
-                Console.WriteLine("\n This is not a number");
-            }
-
-            //if random number divisible by 2 (remainder of 0) then output tails, else, output heads
-            //generate random number each time
-
-            Console.WriteLine(); //adding new line before the flips are shown
-
-            //begin loop to output coin flips
-
-            for (int i = 0; i <= (numberOfFlips-1); i += 1)
-            {
-                int coinFlip = rand.Next();
-
-                //testing to make sure random number generated
-                //Console.WriteLine(coinFlip);
-
-                if (coinFlip % 2 == 0)
+                //put the users input to lowercase and verify if input valid
+                if (headsOrTailsGuess.ToLower() != "tails" && headsOrTailsGuess.ToLower() != "heads")
                 {
-                    Console.WriteLine("tails");
-                    coin = "tails";
-                    if (coin == "tails" && headsOrTailsGuess == "tails")
+                    Console.WriteLine("\nNot a valid input\n");
+                    continue;
+                }
+
+
+                Console.WriteLine("\nPlease input how many times you'd like to flip the coin: \n");
+
+                string userFlips = Console.ReadLine();
+
+                int numberOfFlips;
+
+                //convert user input to number and verify if input is valid
+                if (!int.TryParse(userFlips, out numberOfFlips))
+                {
+                    Console.WriteLine("\nThis is not a number.\n");
+                    continue; //this is causing my program to go completely to the top and request for heads and tails :(
+                }
+
+                //if random number divisible by 2 (remainder of 0) then output tails, else, output heads
+                //generate random number each time
+
+                Console.WriteLine(); //adding new line before the flips are shown
+
+                //begin loop to output coin flips
+
+                for (int i = 0; i <= (numberOfFlips - 1); i += 1)
+                {
+                    int coinFlip = rand.Next();
+
+                    //testing to make sure random number generated
+                    //Console.WriteLine(coinFlip);
+
+                    if (coinFlip % 2 == 0)
                     {
-                        correctCount++;
+                        Console.WriteLine("tails");
+                        coin = "tails";
+                        if (coin == "tails" && headsOrTailsGuess == "tails")
+                        {
+                            correctCount++;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("heads");
+                        coin = "heads";
+                        if (coin == "heads" && headsOrTailsGuess == "heads")
+                        {
+                            correctCount++;
+                        }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("heads");
-                    coin = "heads";
-                    if (coin == "heads" && headsOrTailsGuess == "heads")
-                    {
-                        correctCount++;
-                    }
-                }
+
+
+                //convert value to double
+                double percentRight = (double)correctCount / numberOfFlips;
+
+                //test final numbers
+                //Console.WriteLine(correctCount);
+                //Console.WriteLine(numberOfFlips);
+                //Console.WriteLine(percentRight);
+
+                percentRight = Math.Round(percentRight * 100);
+
+                Console.WriteLine("\nYour guess, " + headsOrTailsGuess + ", came up " + correctCount + " times!");
+                Console.WriteLine("You correctly guessed " + percentRight + "% of the coin flips!");
+                endGame = true;
             }
-
-            int percent = correctCount / numberOfFlips;
-            percent = percent * 100;
-
-            Console.WriteLine("\nYour guess was " + headsOrTailsGuess + "!");
-            Console.WriteLine("Your guess was generated" + correctCount + " times!");
-            Console.WriteLine("You correctly guessed " + percent + "% of the flips!");
         
 
             
